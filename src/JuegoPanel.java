@@ -1,24 +1,31 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class JuegoPanel extends JPanel implements KeyListener {
     private Pajaro pajaro;
     private boolean saltoEnProceso = false;
+    private BufferedImage fondo;
 
     public JuegoPanel() {
-        pajaro = new Pajaro(200, 200, 1, 0);
+        pajaro = new Pajaro(200, 200, 2, 0);
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
 
+        try {
+            fondo = ImageIO.read(getClass().getResource("/img/fondo.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Thread hilo = new Thread(new Runnable() {
             @Override
             public void run() {
                 while (true) {
-                    pajaro.bajar();
-
                     actualizar();
                     repaint();
                     try {
@@ -36,8 +43,14 @@ public class JuegoPanel extends JPanel implements KeyListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(Color.BLACK);
-        g.fillRect(pajaro.getX(), pajaro.getY(), 20, 20);
+
+        if (fondo != null) {
+            // Dibuja el fondo
+            g.drawImage(fondo,0, 0, getWidth(),getHeight(), this);
+            // Dibuja el pajaro
+            g.setColor(Color.BLACK);
+            g.fillRect(pajaro.getX(), pajaro.getY(), 20, 20);
+        }
     }
 
     @Override
@@ -65,8 +78,9 @@ public class JuegoPanel extends JPanel implements KeyListener {
     public void actualizar() {
         if (saltoEnProceso) {
             pajaro.saltar();
+        } else {
+            pajaro.bajar();
         }
-        pajaro.bajar();
     }
 }
 
