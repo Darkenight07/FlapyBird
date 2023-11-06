@@ -1,8 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+
 public class Main {
 
-    public static void main(String  [] args) {
+    public static void main(String  [] args)  {
         JFrame frame = new JFrame("Flappy Bird");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 500);
