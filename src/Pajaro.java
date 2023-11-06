@@ -22,6 +22,7 @@ public class Pajaro {
             contadorSalto++;
             if (y < 0) {
                 System.out.println("Se acabo la partida");
+                System.exit(0);
             } else {
                 System.out.println("Salto: " + y + " " + contadorSalto);
             }
@@ -31,6 +32,7 @@ public class Pajaro {
         y += velocidad;
         if (y > 400) {
             System.out.println("Se acabo la partida");
+            System.exit(0);
         } else {
             System.out.println("Bajada: " + y + " Velocidad: " + velocidad);
         }
