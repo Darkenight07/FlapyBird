@@ -26,7 +26,7 @@ public class Pajaro {
                 System.out.println("Se acabo la partida");
                 System.exit(0);
             } else {
-                System.out.println("Salto: " + y + " Contador Salto: " + contadorSalto + " Veces Salto: " + vecesSalto);
+                // System.out.println("Salto: " + y + " Contador Salto: " + contadorSalto + " Veces Salto: " + vecesSalto);
                 vecesSalto++;
             }
         }
@@ -38,7 +38,7 @@ public class Pajaro {
             System.out.println("Se acabo la partida");
             System.exit(0);
         } else {
-            System.out.println("Bajada: " + y + " Velocidad: " + velocidad);
+            // System.out.println("Bajada: " + y + " Velocidad: " + velocidad);
         }
     }
 
