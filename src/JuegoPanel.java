@@ -63,7 +63,6 @@ public class JuegoPanel extends JPanel implements KeyListener {
         int key = e.getKeyCode();
         if (key == KeyEvent.VK_SPACE) {
             saltoEnProceso = true;
-
         }
     }
 
@@ -76,11 +75,15 @@ public class JuegoPanel extends JPanel implements KeyListener {
     }
 
     public void actualizar() {
-        if (saltoEnProceso) {
-            pajaro.saltar();
-        } else {
-            pajaro.bajar();
-        }
+           if (saltoEnProceso) {
+                if (pajaro.vecesSalto < pajaro.veces) {
+                    pajaro.saltar();
+                } else {
+                    pajaro.bajar();
+                }
+            } else {
+                pajaro.bajar();
+                pajaro.vecesSalto = 0;
+            }
     }
 }
-

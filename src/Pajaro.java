@@ -1,10 +1,12 @@
 public class Pajaro {
     // Posicion del pajaro
-    int x;
-    int y;
+    private int x;
+    private int y;
     // Movimiento del pajaro
-    int velocidad;
-    int gravedad;
+    private int velocidad;
+    private int gravedad;
+    public int veces = 60;
+    public int vecesSalto = 0;
 
     public Pajaro(int x, int y, int velocidad, int gravedad) {
         this.x = x;
@@ -14,7 +16,7 @@ public class Pajaro {
     }
 
     public void saltar() {
-        int saltoMaximo = 10;
+        int saltoMaximo = 60;
         int contadorSalto = 0;
 
         while (contadorSalto < saltoMaximo) {
@@ -24,9 +26,11 @@ public class Pajaro {
                 System.out.println("Se acabo la partida");
                 System.exit(0);
             } else {
-                System.out.println("Salto: " + y + " " + contadorSalto);
+                System.out.println("Salto: " + y + " Contador Salto: " + contadorSalto + " Veces Salto: " + vecesSalto);
+                vecesSalto++;
             }
         }
+
     }
     public void bajar() {
         y += velocidad;
