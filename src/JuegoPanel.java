@@ -8,13 +8,12 @@ import java.io.IOException;
 
 public class JuegoPanel extends JPanel implements KeyListener {
     private Pajaro pajaro;
-    private Tuberias tuberias;
+    private TuberiaArriba tuberiaArriba;
+    private TuberiaAbajo tuberiaAbajo;
     private boolean saltoEnProceso = false;
     private BufferedImage fondo;
     public BufferedImage tuberiaArribaImg;
     public BufferedImage tuberiaAbajoImg;
-    public int tuberiaArribaX;
-    public int tuberiaBajoX;
 
 
     public JuegoPanel() {
@@ -22,8 +21,8 @@ public class JuegoPanel extends JPanel implements KeyListener {
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
-        tuberias = new Tuberias(0, 0, 0);
-
+        tuberiaArriba = new TuberiaArriba(500, 0, 1);
+        tuberiaAbajo = new TuberiaAbajo(700, 300, 1);
 
 
         try {
@@ -58,10 +57,9 @@ public class JuegoPanel extends JPanel implements KeyListener {
         if (fondo != null) {
             // Dibuja el fondo
             g.drawImage(fondo,0, 0, getWidth(),getHeight(), this);
-
             // Dibuja la tuberia
-            // g.drawImage(tuberiaArribaImg, tuberias.movimientoX("arriba", null), 0, 90, 190, this);
-            // g.drawImage(tuberiaAbajoImg, , 300, 100, 300, this);
+            g.drawImage(tuberiaArribaImg, tuberiaArriba.getX(), tuberiaArriba.getY(), 90, 190, this);
+            g.drawImage(tuberiaAbajoImg, tuberiaAbajo.getX(), tuberiaAbajo.getY(), 100, 300, this);
             // Dibuja el pajaro
             g.setColor(Color.BLACK);
             g.fillRect(pajaro.getX(), pajaro.getY(), 20, 20);
@@ -70,7 +68,6 @@ public class JuegoPanel extends JPanel implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
         // No se usa
     }
 
@@ -91,15 +88,48 @@ public class JuegoPanel extends JPanel implements KeyListener {
     }
 
     public void actualizar() {
-           if (saltoEnProceso) {
-                if (pajaro.vecesSalto < pajaro.veces) {
-                    pajaro.saltar();
-                } else {
-                    pajaro.bajar();
-                }
+        int vecesTuberiaArriba = 0;
+        int vecesTuberiaAbajo = 0;
+
+        // TUBERIA ARRIBA
+        if (tuberiaArriba.getX() == 500 && vecesTuberiaArriba == 0) {
+            tuberiaArriba.setX(tuberiaArriba.posicionAleatoriaX());
+            vecesTuberiaArriba++;
+        } else if (tuberiaArriba.getX() >= 450 && tuberiaArriba.getX() <= 500 && vecesTuberiaArriba == 1) {
+            vecesTuberiaArriba--;
+        }
+        tuberiaArriba.movimientoX();
+
+        if (tuberiaArriba.getX() < -90 ) {
+            tuberiaArriba.setX(tuberiaArriba.posicionAleatoriaX());
+        }
+
+        // TUBERIA ABAJO
+        if (tuberiaAbajo.getX() == 700 && vecesTuberiaAbajo == 0) {
+            tuberiaAbajo.setX(tuberiaAbajo.posicionAleatoriaX());
+            vecesTuberiaAbajo++;
+        } else if (tuberiaAbajo.getX() >= 600 && tuberiaAbajo.getX() <= 700 && vecesTuberiaAbajo == 1) {
+            vecesTuberiaAbajo--;
+        }
+
+        tuberiaAbajo.movimientoX();
+
+        if (tuberiaAbajo.getX() < -90 ) {
+            tuberiaAbajo.setX(tuberiaAbajo.posicionAleatoriaX());
+        }
+
+
+        if (saltoEnProceso) {
+            if (pajaro.vecesSalto < pajaro.veces) {
+                pajaro.saltar();
             } else {
                 pajaro.bajar();
-                pajaro.vecesSalto = 0;
             }
+        } else {
+            pajaro.bajar();
+            pajaro.vecesSalto = 0;
+        }
+
     }
+
 }
