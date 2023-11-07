@@ -8,17 +8,29 @@ import java.io.IOException;
 
 public class JuegoPanel extends JPanel implements KeyListener {
     private Pajaro pajaro;
+    private Tuberias tuberias;
     private boolean saltoEnProceso = false;
     private BufferedImage fondo;
+    public BufferedImage tuberiaArribaImg;
+    public BufferedImage tuberiaAbajoImg;
+    public int tuberiaArribaX;
+    public int tuberiaBajoX;
+
 
     public JuegoPanel() {
-        pajaro = new Pajaro(200, 200, 2, 0);
+        pajaro = new Pajaro(90, 90, 2, 0);
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
+        tuberias = new Tuberias(0, 0, 0);
+
+
 
         try {
             fondo = ImageIO.read(getClass().getResource("/img/fondo.jpg"));
+            tuberiaArribaImg = ImageIO.read(getClass().getResource("/img/tuberia_arriba.png"));
+            tuberiaAbajoImg = ImageIO.read(getClass().getResource("/img/tuberia_abajo.png"));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -35,7 +47,6 @@ public class JuegoPanel extends JPanel implements KeyListener {
                     }
                 }
             }
-
         });
         hilo.start();
     }
@@ -47,6 +58,10 @@ public class JuegoPanel extends JPanel implements KeyListener {
         if (fondo != null) {
             // Dibuja el fondo
             g.drawImage(fondo,0, 0, getWidth(),getHeight(), this);
+
+            // Dibuja la tuberia
+            // g.drawImage(tuberiaArribaImg, tuberias.movimientoX("arriba", null), 0, 90, 190, this);
+            // g.drawImage(tuberiaAbajoImg, , 300, 100, 300, this);
             // Dibuja el pajaro
             g.setColor(Color.BLACK);
             g.fillRect(pajaro.getX(), pajaro.getY(), 20, 20);
@@ -55,6 +70,7 @@ public class JuegoPanel extends JPanel implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
+
         // No se usa
     }
 
