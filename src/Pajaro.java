@@ -1,9 +1,4 @@
 public class Pajaro {
-
-    public int puntos;
-    private TuberiaArriba tuberiaArriba = new TuberiaArriba(500, 0, 2);
-    private TuberiaAbajo tuberiaAbajo = new TuberiaAbajo(600, 300, 2);
-
     // Posicion del pajaro
     private int x;
     private int y;
@@ -12,6 +7,8 @@ public class Pajaro {
     private int gravedad;
     public int veces = 60;
     public int vecesSalto = 0;
+    
+    public int puntos;
 
     public Pajaro(int x, int y, int velocidad, int gravedad) {
         this.x = x;
@@ -24,6 +21,7 @@ public class Pajaro {
         int saltoMaximo = 60;
         int contadorSalto = 0;
 
+        
         while (contadorSalto < saltoMaximo) {
             y -= 1;
             contadorSalto++;
@@ -55,7 +53,15 @@ public class Pajaro {
         return y;
     }
 
-    public void puntos() {
-        // Falta implementar
+    public int puntos(int tuberiaArribaX, int tuberiaArribaY, int tuberiaAbajoX, int tuberiaAbajoY, int puntos) {
+    	System.out.println("Pajaro " + y + " Tuberia arribaX: " + tuberiaArribaX);
+    	if (y == tuberiaArribaY || x == tuberiaArribaX) {
+    		puntos--;
+    		System.out.println(puntos);
+    		return puntos;
+    	}
+    	
+    	return puntos;
+    	
     }
 }
