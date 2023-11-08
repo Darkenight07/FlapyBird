@@ -10,22 +10,20 @@ public class JuegoPanel extends JPanel implements KeyListener {
     private Pajaro pajaro;
     private TuberiaArriba tuberiaArriba;
     private TuberiaAbajo tuberiaAbajo;
-    private boolean saltoEnProceso = false;
+    public boolean saltoEnProceso = false;
     private BufferedImage fondo;
     public BufferedImage tuberiaArribaImg;
     public BufferedImage tuberiaAbajoImg;
-    private int vecesTuberiaArriba = 0;
-    private int vecesTuberiaAbajo = 0;
-
-
-    public JuegoPanel() {
+    public int puntos = 0;
+    
+    public JuegoPanel(JFrame frame) {
         pajaro = new Pajaro(90, 90, 2, 0);
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         tuberiaArriba = new TuberiaArriba(500, 0, 2);
         tuberiaAbajo = new TuberiaAbajo(600, 300, 2);
-
+        
 
         try {
             fondo = ImageIO.read(getClass().getResource("/img/fondo.jpg"));
@@ -39,14 +37,16 @@ public class JuegoPanel extends JPanel implements KeyListener {
             @Override
             public void run() {
                 while (true) {
-                    pajaro.puntos();
-                    actualizar();
+                    puntos = pajaro.puntos(tuberiaArriba.getX(),tuberiaArriba.getY(),tuberiaAbajo.getX(),tuberiaAbajo.getY(),puntos);
+                    frame.setTitle("Flappy Bird | Puntos: " + puntos);
+
                     repaint();
                     try {
                         Thread.sleep(10); // 10 milisegundos de pausa
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    actualizar();
                 }
             }
         });
@@ -118,10 +118,10 @@ public class JuegoPanel extends JPanel implements KeyListener {
 
 
         // PAJARO
-
         if (saltoEnProceso) {
             if (pajaro.vecesSalto < pajaro.veces) {
                 pajaro.saltar();
+               
             } else {
                 pajaro.bajar();
             }
@@ -130,7 +130,5 @@ public class JuegoPanel extends JPanel implements KeyListener {
             pajaro.vecesSalto = 0;
         }
 
-
     }
-
 }
