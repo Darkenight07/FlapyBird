@@ -10,7 +10,7 @@ public class Main {
         frame.setResizable(false);
         frame.setLayout(new BorderLayout());
 
-        JuegoPanel panel = new JuegoPanel();
+        JuegoPanel panel = new JuegoPanel(frame);
         frame.add(panel, BorderLayout.CENTER);
         panel.requestFocusInWindow();
 
