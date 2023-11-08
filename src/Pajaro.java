@@ -1,4 +1,9 @@
 public class Pajaro {
+
+    public int puntos;
+    private TuberiaArriba tuberiaArriba = new TuberiaArriba(500, 0, 2);
+    private TuberiaAbajo tuberiaAbajo = new TuberiaAbajo(600, 300, 2);
+
     // Posicion del pajaro
     private int x;
     private int y;
@@ -48,5 +53,9 @@ public class Pajaro {
 
     public int getY() {
         return y;
+    }
+
+    public void puntos() {
+        // Falta implementar
     }
 }
