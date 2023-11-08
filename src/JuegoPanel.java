@@ -14,6 +14,8 @@ public class JuegoPanel extends JPanel implements KeyListener {
     private BufferedImage fondo;
     public BufferedImage tuberiaArribaImg;
     public BufferedImage tuberiaAbajoImg;
+    private int vecesTuberiaArriba = 0;
+    private int vecesTuberiaAbajo = 0;
 
 
     public JuegoPanel() {
@@ -21,8 +23,8 @@ public class JuegoPanel extends JPanel implements KeyListener {
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
-        tuberiaArriba = new TuberiaArriba(500, 0, 1);
-        tuberiaAbajo = new TuberiaAbajo(700, 300, 1);
+        tuberiaArriba = new TuberiaArriba(500, 0, 2);
+        tuberiaAbajo = new TuberiaAbajo(600, 300, 2);
 
 
         try {
@@ -37,6 +39,7 @@ public class JuegoPanel extends JPanel implements KeyListener {
             @Override
             public void run() {
                 while (true) {
+                    pajaro.puntos();
                     actualizar();
                     repaint();
                     try {
@@ -59,7 +62,7 @@ public class JuegoPanel extends JPanel implements KeyListener {
             g.drawImage(fondo,0, 0, getWidth(),getHeight(), this);
             // Dibuja la tuberia
             g.drawImage(tuberiaArribaImg, tuberiaArriba.getX(), tuberiaArriba.getY(), 90, 190, this);
-            g.drawImage(tuberiaAbajoImg, tuberiaAbajo.getX(), tuberiaAbajo.getY(), 100, 300, this);
+            g.drawImage(tuberiaAbajoImg, tuberiaAbajo.getX(), tuberiaAbajo.getY(), 90, 300, this);
             // Dibuja el pajaro
             g.setColor(Color.BLACK);
             g.fillRect(pajaro.getX(), pajaro.getY(), 20, 20);
@@ -88,36 +91,33 @@ public class JuegoPanel extends JPanel implements KeyListener {
     }
 
     public void actualizar() {
-        int vecesTuberiaArriba = 0;
-        int vecesTuberiaAbajo = 0;
 
-        // TUBERIA ARRIBA
-        if (tuberiaArriba.getX() == 500 && vecesTuberiaArriba == 0) {
+        // TUBERIA DE ARRIBA
+
+        if (tuberiaArriba.getX() == 500) {
             tuberiaArriba.setX(tuberiaArriba.posicionAleatoriaX());
-            vecesTuberiaArriba++;
-        } else if (tuberiaArriba.getX() >= 450 && tuberiaArriba.getX() <= 500 && vecesTuberiaArriba == 1) {
-            vecesTuberiaArriba--;
+        } else if (tuberiaArriba.getX() < -90) {
+            tuberiaArriba.setX(tuberiaArriba.posicionAleatoriaX());
         }
+
         tuberiaArriba.movimientoX();
 
-        if (tuberiaArriba.getX() < -90 ) {
-            tuberiaArriba.setX(tuberiaArriba.posicionAleatoriaX());
+
+        // TUBERIA DE ABAJO
+
+        if (tuberiaAbajo.getX() == 600 && tuberiaAbajo.getY() == 300) {
+            tuberiaAbajo.setX(tuberiaAbajo.posicionAleatoriaX());
+            tuberiaAbajo.setY(tuberiaAbajo.poscionAleatoriaY());
+        } else if (tuberiaAbajo.getX() < -90) {
+            tuberiaAbajo.setX(tuberiaAbajo.posicionAleatoriaX());
+            tuberiaAbajo.setY(tuberiaAbajo.poscionAleatoriaY());
         }
 
-        // TUBERIA ABAJO
-        if (tuberiaAbajo.getX() == 700 && vecesTuberiaAbajo == 0) {
-            tuberiaAbajo.setX(tuberiaAbajo.posicionAleatoriaX());
-            vecesTuberiaAbajo++;
-        } else if (tuberiaAbajo.getX() >= 600 && tuberiaAbajo.getX() <= 700 && vecesTuberiaAbajo == 1) {
-            vecesTuberiaAbajo--;
-        }
 
         tuberiaAbajo.movimientoX();
 
-        if (tuberiaAbajo.getX() < -90 ) {
-            tuberiaAbajo.setX(tuberiaAbajo.posicionAleatoriaX());
-        }
 
+        // PAJARO
 
         if (saltoEnProceso) {
             if (pajaro.vecesSalto < pajaro.veces) {
@@ -129,6 +129,7 @@ public class JuegoPanel extends JPanel implements KeyListener {
             pajaro.bajar();
             pajaro.vecesSalto = 0;
         }
+
 
     }
 
