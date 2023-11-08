@@ -12,13 +12,13 @@ public class TuberiaArriba {
 
     public void movimientoX() {
         x -= velocidad;
-        System.out.println("Tuberia Arriba X: " + x);
+        // System.out.println("Tuberia Arriba X: " + x);
     }
 
     public int posicionAleatoriaX() {
         Random numeroAleatorio = new Random();
-        int posicion = numeroAleatorio.nextInt(101) + 450; // Numero aleatorio de 400 a 500 para la posicion X de la tuberia
-        System.out.println("Posicion aleatorio Tuberia Arriba X: " + posicion);
+        int posicion = numeroAleatorio.nextInt(101) + 450; // Numero aleatorio de 450 a 551 para la posicion X de la tuberia
+        // System.out.println("Posicion aleatorio Tuberia Arriba X: " + posicion);
         return posicion;
     }
 

@@ -12,13 +12,20 @@ public class TuberiaAbajo {
 
     public void movimientoX() {
         x -= velocidad;
-        System.out.println("Tuberia Abajo X: " + x);
+        // System.out.println("Tuberia Abajo X: " + x);
     }
 
     public int posicionAleatoriaX() {
         Random numeroAleatorio = new Random();
-        int posicion = numeroAleatorio.nextInt(101) + 600; // Numero aleatorio de 600 a 700 para la posicion X de la tuberia
-        System.out.println("Posicion aleatorio Tuberia Abajo X: " + posicion);
+        int posicion = numeroAleatorio.nextInt(101) + 480; // Numero aleatorio de 480 a 581 para la posicion X de la tuberia
+        // System.out.println("Posicion aleatorio Tuberia Abajo X: " + posicion);
+        return posicion;
+    }
+
+    public int poscionAleatoriaY() {
+        Random numeroAleatorio = new Random();
+        int posicion = numeroAleatorio.nextInt(100) + 240; // Numero aleatorio de 240 a 340 para la posicion Y de la tuberia
+        // System.out.println("Posicion aleatorio Tuberia Abajo Y: " + posicion);
         return posicion;
     }
 
@@ -26,6 +33,7 @@ public class TuberiaAbajo {
     public int setX(int x) {
         return this.x = x;
     }
+    public int setY(int y) {return this.y = y; }
 
     public int getX() {
         return x;
