@@ -5,19 +5,22 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.Serial;
 
 public class JuegoPanel extends JPanel implements KeyListener {
-    private Pajaro pajaro;
+    @Serial
+    private static final long serialVersionUID = 1L;
+	private Pajaro pajaro;
     private TuberiaArriba tuberiaArriba;
     private TuberiaAbajo tuberiaAbajo;
     public boolean saltoEnProceso = false;
     private BufferedImage fondo;
-    public BufferedImage tuberiaArribaImg;
-    public BufferedImage tuberiaAbajoImg;
-    public int puntos = 0;
+    private BufferedImage tuberiaArribaImg;
+    private BufferedImage tuberiaAbajoImg;
+    private int puntos = 0;
     
     public JuegoPanel(JFrame frame) {
-        pajaro = new Pajaro(90, 90, 2, 0);
+        pajaro = new Pajaro(90, 90, 2);
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
@@ -33,21 +36,18 @@ public class JuegoPanel extends JPanel implements KeyListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Thread hilo = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    puntos = pajaro.puntos(tuberiaArriba.getX(),tuberiaArriba.getY(),tuberiaAbajo.getX(),tuberiaAbajo.getY(),puntos);
-                    frame.setTitle("Flappy Bird | Puntos: " + puntos);
+        Thread hilo = new Thread(() -> {
+            while (true) {
+                puntos = pajaro.puntos(tuberiaArriba.getX(),tuberiaArriba.getY(),tuberiaAbajo.getX(),tuberiaAbajo.getY(),puntos);
+                frame.setTitle("Flappy Bird | Puntos: " + puntos);
 
-                    repaint();
-                    try {
-                        Thread.sleep(10); // 10 milisegundos de pausa
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    actualizar();
+                repaint();
+                try {
+                    Thread.sleep(10); // 10 milisegundos de pausa
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+                actualizar();
             }
         });
         hilo.start();
