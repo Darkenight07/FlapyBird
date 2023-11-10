@@ -22,7 +22,7 @@ public class JuegoPanel extends JPanel implements KeyListener {
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         tuberiaArriba = new TuberiaArriba(500, 0, 2);
-        tuberiaAbajo = new TuberiaAbajo(600, 300, 2);
+        tuberiaAbajo = new TuberiaAbajo(500, 300, 2);
         
 
         try {
@@ -61,7 +61,7 @@ public class JuegoPanel extends JPanel implements KeyListener {
             // Dibuja el fondo
             g.drawImage(fondo,0, 0, getWidth(),getHeight(), this);
             // Dibuja la tuberia
-            g.drawImage(tuberiaArribaImg, tuberiaArriba.getX(), tuberiaArriba.getY(), 90, 190, this);
+            g.drawImage(tuberiaArribaImg, tuberiaArriba.getX(), tuberiaArriba.getY(), 90, 300, this);
             g.drawImage(tuberiaAbajoImg, tuberiaAbajo.getX(), tuberiaAbajo.getY(), 90, 300, this);
             // Dibuja el pajaro
             g.setColor(Color.BLACK);
@@ -95,9 +95,10 @@ public class JuegoPanel extends JPanel implements KeyListener {
         // TUBERIA DE ARRIBA
 
         if (tuberiaArriba.getX() == 500) {
-            tuberiaArriba.setX(tuberiaArriba.posicionAleatoriaX());
+            tuberiaArriba.setY(tuberiaArriba.posicionAleatoriaY());
         } else if (tuberiaArriba.getX() < -90) {
-            tuberiaArriba.setX(tuberiaArriba.posicionAleatoriaX());
+            tuberiaArriba.setX(500);
+            tuberiaArriba.setY(tuberiaArriba.posicionAleatoriaY());
         }
 
         tuberiaArriba.movimientoX();
@@ -105,14 +106,12 @@ public class JuegoPanel extends JPanel implements KeyListener {
 
         // TUBERIA DE ABAJO
 
-        if (tuberiaAbajo.getX() == 600 && tuberiaAbajo.getY() == 300) {
-            tuberiaAbajo.setX(tuberiaAbajo.posicionAleatoriaX());
+        if (tuberiaAbajo.getX() == 500) {
             tuberiaAbajo.setY(tuberiaAbajo.poscionAleatoriaY());
         } else if (tuberiaAbajo.getX() < -90) {
-            tuberiaAbajo.setX(tuberiaAbajo.posicionAleatoriaX());
+            tuberiaAbajo.setX(500);
             tuberiaAbajo.setY(tuberiaAbajo.poscionAleatoriaY());
         }
-
 
         tuberiaAbajo.movimientoX();
 
