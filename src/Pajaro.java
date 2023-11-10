@@ -1,22 +1,16 @@
-import javax.swing.*;
-
 public class Pajaro {
     // Posicion del pajaro
     private int x;
     private int y;
     // Movimiento del pajaro
-    private int velocidad;
-    private int gravedad;
+    private final int VELOCIDAD;
     public int veces = 60;
     public int vecesSalto = 0;
-    
-    public int puntos;
 
-    public Pajaro(int x, int y, int velocidad, int gravedad) {
+    public Pajaro(int x, int y, int velocidad) {
         this.x = x;
         this.y = y;
-        this.velocidad = velocidad;
-        this.gravedad = gravedad;
+        this.VELOCIDAD = velocidad;
     }
 
     public void saltar() {
@@ -38,12 +32,10 @@ public class Pajaro {
 
     }
     public void bajar() {
-        y += velocidad;
+        y += VELOCIDAD;
         if (y > 400) {
             System.out.println("Se acabo la partida");
             System.exit(0);
-        } else {
-            // System.out.println("Bajada: " + y + " Velocidad: " + velocidad);
         }
     }
 
@@ -58,6 +50,7 @@ public class Pajaro {
     public int puntos(int tuberiaArribaX, int tuberiaArribaY, int tuberiaAbajoX, int tuberiaAbajoY, int puntos) {
         final int ALTURA_TUBERIA_ARRIBA = 300;
         final int BAJO_TUBERIA_ABAJO = 300;
+        
         int ANCHO_TUBERIA_ARRIBA = 70;
         int ANCHO_TUBERIA_ABAJO = 70;
 
