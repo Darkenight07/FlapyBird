@@ -15,16 +15,16 @@ public class TuberiaArriba {
         // System.out.println("Tuberia Arriba X: " + x);
     }
 
-    public int posicionAleatoriaX() {
+    public int posicionAleatoriaY() {
         Random numeroAleatorio = new Random();
-        int posicion = numeroAleatorio.nextInt(101) + 450; // Numero aleatorio de 450 a 551 para la posicion X de la tuberia
-        // System.out.println("Posicion aleatorio Tuberia Arriba X: " + posicion);
+        int posicion = numeroAleatorio.nextInt(40) - 100 ; // Numero aleatorio de 20 a 111 para la posicion X de la tuberia
         return posicion;
     }
 
     public int setX(int x) {
         return this.x = x;
     }
+    public int setY(int y) {return this.y = y; }
 
 
     public int getX() {
