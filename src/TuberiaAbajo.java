@@ -15,17 +15,9 @@ public class TuberiaAbajo {
         // System.out.println("Tuberia Abajo X: " + x);
     }
 
-    public int posicionAleatoriaX() {
-        Random numeroAleatorio = new Random();
-        int posicion = numeroAleatorio.nextInt(101) + 480; // Numero aleatorio de 480 a 581 para la posicion X de la tuberia
-        // System.out.println("Posicion aleatorio Tuberia Abajo X: " + posicion);
-        return posicion;
-    }
-
     public int poscionAleatoriaY() {
         Random numeroAleatorio = new Random();
-        int posicion = numeroAleatorio.nextInt(100) + 240; // Numero aleatorio de 240 a 340 para la posicion Y de la tuberia
-        // System.out.println("Posicion aleatorio Tuberia Abajo Y: " + posicion);
+        int posicion = numeroAleatorio.nextInt(100) + 300; // Numero aleatorio de 300 a 401 para la posicion Y de la tuberia
         return posicion;
     }
 
