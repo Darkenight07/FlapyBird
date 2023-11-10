@@ -1,3 +1,5 @@
+import javax.swing.*;
+
 public class Pajaro {
     // Posicion del pajaro
     private int x;
@@ -54,14 +56,30 @@ public class Pajaro {
     }
 
     public int puntos(int tuberiaArribaX, int tuberiaArribaY, int tuberiaAbajoX, int tuberiaAbajoY, int puntos) {
-    	System.out.println("Pajaro " + y + " Tuberia arribaX: " + tuberiaArribaX);
-    	if (y == tuberiaArribaY || x == tuberiaArribaX) {
-    		puntos--;
-    		System.out.println(puntos);
-    		return puntos;
-    	}
-    	
-    	return puntos;
-    	
+        final int ALTURA_TUBERIA_ARRIBA = 300;
+        final int BAJO_TUBERIA_ABAJO = 300;
+        int ANCHO_TUBERIA_ARRIBA = 70;
+        int ANCHO_TUBERIA_ABAJO = 70;
+
+        int inicioTuberiaXArriba = tuberiaArribaX;
+        int finalTuberiaXArriba = tuberiaArribaX + ANCHO_TUBERIA_ARRIBA;
+        int inicioTuberiaYArriba = tuberiaArribaY;
+        int finalTuberiaYArriba = tuberiaArribaY + ALTURA_TUBERIA_ARRIBA;
+
+        int inicioTuberiaXAbajo = tuberiaAbajoX;
+        int finalTuberiaXAbajo = tuberiaAbajoX + ANCHO_TUBERIA_ABAJO;
+        int inicioTuberiaYAbajo = tuberiaAbajoY;
+        int finalTuberiaYAbajo = tuberiaAbajoY + BAJO_TUBERIA_ABAJO;
+
+        if((inicioTuberiaXArriba <= x && finalTuberiaXArriba >= x) && (inicioTuberiaYArriba <= y && finalTuberiaYArriba >= y)) {
+            System.out.println("Colisionando");
+            System.exit(0);
+        } else if ((inicioTuberiaXAbajo <= x && finalTuberiaXAbajo >= x) && (inicioTuberiaYAbajo <= y && finalTuberiaYAbajo >= y)) {
+            System.out.println("Colisionando");
+            System.exit(0);
+        }
+
+        return puntos;
+
     }
 }
