@@ -18,6 +18,8 @@ public class JuegoPanel extends JPanel implements KeyListener {
     private BufferedImage tuberiaArribaImg;
     private BufferedImage tuberiaAbajoImg;
     private int puntos = 0;
+    private int posicionArriba;
+    private int posicionAbajo;
     
     public JuegoPanel(JFrame frame) {
         pajaro = new Pajaro(90, 90, 2);
@@ -120,7 +122,6 @@ public class JuegoPanel extends JPanel implements KeyListener {
         if (saltoEnProceso) {
             if (pajaro.vecesSalto < pajaro.veces) {
                 pajaro.saltar();
-               
             } else {
                 pajaro.bajar();
             }

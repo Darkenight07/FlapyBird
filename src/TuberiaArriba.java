@@ -17,7 +17,7 @@ public class TuberiaArriba {
 
     public int posicionAleatoriaY() {
         Random numeroAleatorio = new Random();
-        int posicion = numeroAleatorio.nextInt(40) - 100 ; // Numero aleatorio de 20 a 111 para la posicion X de la tuberia
+        int posicion = numeroAleatorio.nextInt(40) - 100 ; // Numero aleatorio de 20 a 111 para la posicion Y de la tuberia
         System.out.println("Tuberia Arriba Y " + posicion);
         return posicion;
     }
