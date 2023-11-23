@@ -12,6 +12,7 @@ public class TuberiaArriba {
 
     public void movimientoX() {
         x -= VELOCIDAD;
+
     }
 
     public int posicionAleatoriaY() {

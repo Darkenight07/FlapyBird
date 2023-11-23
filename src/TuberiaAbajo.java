@@ -8,6 +8,8 @@ public class TuberiaAbajo {
         this.x = x;
         this.y = y;
         this.VELOCIDAD = velocidad;
+
+
     }
 
     public void movimientoX() {
