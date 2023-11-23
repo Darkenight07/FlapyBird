@@ -6,20 +6,27 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serial;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class JuegoPanel extends JPanel implements KeyListener {
     @Serial
     private static final long serialVersionUID = 1L;
+    // Objetos
 	private Pajaro pajaro;
     private TuberiaArriba tuberiaArriba;
     private TuberiaAbajo tuberiaAbajo;
     public boolean saltoEnProceso = false;
+    // Imagenes
     private BufferedImage fondo;
     private BufferedImage tuberiaArribaImg;
     private BufferedImage tuberiaAbajoImg;
+    private BufferedImage pajaroImg;
     private int puntos = 0;
-    private int posicionArriba;
-    private int posicionAbajo;
+    public int contadorSalto = 0;
+    public boolean estaSubiendo = false;
+    private int contadorRotacionSubida;
+    private int contadorRotacionBajada;
     
     public JuegoPanel(JFrame frame) {
         pajaro = new Pajaro(90, 90, 2);
@@ -34,25 +41,30 @@ public class JuegoPanel extends JPanel implements KeyListener {
             fondo = ImageIO.read(getClass().getResource("/img/fondo.jpg"));
             tuberiaArribaImg = ImageIO.read(getClass().getResource("/img/tuberia_arriba.png"));
             tuberiaAbajoImg = ImageIO.read(getClass().getResource("/img/tuberia_abajo.png"));
+            pajaroImg = ImageIO.read(getClass().getResource("/img/pajaro.png"));
+
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Thread hilo = new Thread(() -> {
-            while (true) {
+        Timer timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
                 puntos = pajaro.puntos(tuberiaArriba.getX(),tuberiaArriba.getY(),tuberiaAbajo.getX(),tuberiaAbajo.getY(),puntos);
                 frame.setTitle("Flappy Bird | Puntos: " + puntos);
 
                 repaint();
+
+                actualizar();
                 try {
                     Thread.sleep(10); // 10 milisegundos de pausa
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                actualizar();
             }
-        });
-        hilo.start();
+        };
+        timer.schedule(timerTask, 0, 10);
     }
 
     @Override
@@ -66,8 +78,10 @@ public class JuegoPanel extends JPanel implements KeyListener {
             g.drawImage(tuberiaArribaImg, tuberiaArriba.getX(), tuberiaArriba.getY(), 90, 300, this);
             g.drawImage(tuberiaAbajoImg, tuberiaAbajo.getX(), tuberiaAbajo.getY(), 90, 300, this);
             // Dibuja el pajaro
-            g.setColor(Color.BLACK);
-            g.fillRect(pajaro.getX(), pajaro.getY(), 20, 20);
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.rotate(Math.toRadians(pajaro.angulo), pajaro.getX() + 17, pajaro.getY() + 10);
+            g2d.drawImage(pajaroImg, pajaro.getX(), pajaro.getY(), 35, 20, this);
+            g2d.dispose();
         }
     }
 
@@ -81,6 +95,7 @@ public class JuegoPanel extends JPanel implements KeyListener {
         int key = e.getKeyCode();
         if (key == KeyEvent.VK_SPACE) {
             saltoEnProceso = true;
+            estaSubiendo = true;
         }
     }
 
@@ -89,6 +104,7 @@ public class JuegoPanel extends JPanel implements KeyListener {
         int key = e.getKeyCode();
         if (key == KeyEvent.VK_SPACE) {
             saltoEnProceso = false;
+            estaSubiendo = false;
         }
     }
 
@@ -118,17 +134,27 @@ public class JuegoPanel extends JPanel implements KeyListener {
         tuberiaAbajo.movimientoX();
 
 
-        // PAJARO
+        // PAJARO && ROTACION
+
+        // No terminado
         if (saltoEnProceso) {
+            if (pajaro.getAngulo() == 0 || pajaro.getAngulo() == 30) {
+                pajaro.angulo += -30;
+            }
             if (pajaro.vecesSalto < pajaro.veces) {
                 pajaro.saltar();
             } else {
+                if (pajaro.getAngulo() == -30 || pajaro.getAngulo() == 0) {
+                    pajaro.angulo += 30;
+                }
                 pajaro.bajar();
             }
         } else {
+            if (pajaro.getAngulo() == -30 || pajaro.getAngulo() == 0) {
+                pajaro.angulo += 30;
+            }
             pajaro.bajar();
             pajaro.vecesSalto = 0;
         }
-
     }
 }
