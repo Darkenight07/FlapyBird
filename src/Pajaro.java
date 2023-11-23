@@ -1,11 +1,12 @@
 public class Pajaro {
     // Posicion del pajaro
     private int x;
-    private int y;
+    public int y;
     // Movimiento del pajaro
     private final int VELOCIDAD;
-    public int veces = 60;
+    public int veces = 8;
     public int vecesSalto = 0;
+    public int angulo;
 
     public Pajaro(int x, int y, int velocidad) {
         this.x = x;
@@ -14,27 +15,16 @@ public class Pajaro {
     }
 
     public void saltar() {
-        int saltoMaximo = 60;
-        int contadorSalto = 0;
-
-        
-        while (contadorSalto < saltoMaximo) {
-            y -= 1;
-            contadorSalto++;
-            if (y < 0) {
-                System.out.println("Se acabo la partida");
-                System.exit(0);
-            } else {
-                // System.out.println("Salto: " + y + " Contador Salto: " + contadorSalto + " Veces Salto: " + vecesSalto);
-                vecesSalto++;
-            }
+        y -= 8;
+        if (y < 0) {
+            System.exit(0);
+        } else {
+            vecesSalto++;
         }
-
     }
     public void bajar() {
         y += VELOCIDAD;
         if (y > 400) {
-            System.out.println("Se acabo la partida");
             System.exit(0);
         }
     }
@@ -51,8 +41,8 @@ public class Pajaro {
         final int ALTURA_TUBERIA_ARRIBA = 300;
         final int BAJO_TUBERIA_ABAJO = 300;
         
-        int ANCHO_TUBERIA_ARRIBA = 70;
-        int ANCHO_TUBERIA_ABAJO = 70;
+        int ANCHO_TUBERIA_ARRIBA = 90;
+        int ANCHO_TUBERIA_ABAJO = 90;
 
         int inicioTuberiaXArriba = tuberiaArribaX;
         int finalTuberiaXArriba = tuberiaArribaX + ANCHO_TUBERIA_ARRIBA;
@@ -65,14 +55,18 @@ public class Pajaro {
         int finalTuberiaYAbajo = tuberiaAbajoY + BAJO_TUBERIA_ABAJO;
 
         if((inicioTuberiaXArriba <= x && finalTuberiaXArriba >= x) && (inicioTuberiaYArriba <= y && finalTuberiaYArriba >= y)) {
-            System.out.println("Colisionando");
             System.exit(0);
-        } else if ((inicioTuberiaXAbajo <= x && finalTuberiaXAbajo >= x) && (inicioTuberiaYAbajo <= y && finalTuberiaYAbajo >= y)) {
-            System.out.println("Colisionando");
+        } else if ((inicioTuberiaXAbajo <= x && finalTuberiaXAbajo >= x) && (inicioTuberiaYAbajo - 20 <= y && finalTuberiaYAbajo >= y)) {
             System.exit(0);
+        } else if (x == inicioTuberiaXArriba || x == inicioTuberiaXAbajo) {
+            puntos++;
         }
 
         return puntos;
 
+    }
+
+    public int getAngulo() {
+        return angulo;
     }
 }
