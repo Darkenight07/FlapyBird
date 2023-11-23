@@ -23,11 +23,6 @@ public class JuegoPanel extends JPanel implements KeyListener {
     private BufferedImage tuberiaAbajoImg;
     private BufferedImage pajaroImg;
     private int puntos = 0;
-    public int contadorSalto = 0;
-    public boolean estaSubiendo = false;
-    private int contadorRotacionSubida;
-    private int contadorRotacionBajada;
-    
     public JuegoPanel(JFrame frame) {
         pajaro = new Pajaro(90, 90, 2);
         addKeyListener(this);
@@ -53,10 +48,16 @@ public class JuegoPanel extends JPanel implements KeyListener {
             public void run() {
                 puntos = pajaro.puntos(tuberiaArriba.getX(),tuberiaArriba.getY(),tuberiaAbajo.getX(),tuberiaAbajo.getY(),puntos);
                 frame.setTitle("Flappy Bird | Puntos: " + puntos);
-
                 repaint();
 
                 actualizar();
+                if (pajaro.getAngulo() == 0 && saltoEnProceso) {
+                    pajaro.angulo += -30;
+                } else if (pajaro.getAngulo() == -30 && !saltoEnProceso) {
+                    pajaro.angulo += 30;
+                }
+                System.out.println(pajaro.getAngulo());
+
                 try {
                     Thread.sleep(10); // 10 milisegundos de pausa
                 } catch (InterruptedException e) {
@@ -95,7 +96,6 @@ public class JuegoPanel extends JPanel implements KeyListener {
         int key = e.getKeyCode();
         if (key == KeyEvent.VK_SPACE) {
             saltoEnProceso = true;
-            estaSubiendo = true;
         }
     }
 
@@ -104,7 +104,7 @@ public class JuegoPanel extends JPanel implements KeyListener {
         int key = e.getKeyCode();
         if (key == KeyEvent.VK_SPACE) {
             saltoEnProceso = false;
-            estaSubiendo = false;
+
         }
     }
 
@@ -138,21 +138,12 @@ public class JuegoPanel extends JPanel implements KeyListener {
 
         // No terminado
         if (saltoEnProceso) {
-            if (pajaro.getAngulo() == 0 || pajaro.getAngulo() == 30) {
-                pajaro.angulo += -30;
-            }
             if (pajaro.vecesSalto < pajaro.veces) {
                 pajaro.saltar();
             } else {
-                if (pajaro.getAngulo() == -30 || pajaro.getAngulo() == 0) {
-                    pajaro.angulo += 30;
-                }
                 pajaro.bajar();
             }
         } else {
-            if (pajaro.getAngulo() == -30 || pajaro.getAngulo() == 0) {
-                pajaro.angulo += 30;
-            }
             pajaro.bajar();
             pajaro.vecesSalto = 0;
         }
