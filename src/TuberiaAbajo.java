@@ -4,15 +4,14 @@ public class TuberiaAbajo {
     private int y;
     private final int VELOCIDAD;
 
-    public TuberiaAbajo(int x, int y, int VELOCIDAD) {
+    public TuberiaAbajo(int x, int y, int velocidad) {
         this.x = x;
         this.y = y;
-        this.VELOCIDAD = VELOCIDAD;
+        this.VELOCIDAD = velocidad;
     }
 
     public void movimientoX() {
         x -= VELOCIDAD;
-        // System.out.println("Tuberia Abajo X: " + x);
     }
 
     public int poscionAleatoriaY() {
@@ -21,9 +20,21 @@ public class TuberiaAbajo {
         return posicion;
     }
 
-    public int setX(int x) {return this.x = x;}
-    public int setY(int y) {return this.y = y; }
+    public int setX(int x) {
 
-    public int getX() {return x;}
-    public int getY() {return y;}
+        return this.x = x;
+    }
+    public int setY(int y) {
+
+        return this.y = y;
+    }
+
+    public int getX() {
+
+        return x;
+    }
+    public int getY() {
+
+        return y;
+    }
 }
