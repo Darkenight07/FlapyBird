@@ -24,6 +24,7 @@ public class JuegoPanel extends JPanel implements KeyListener {
     private BufferedImage pajaroImg;
     private int puntos = 0;
     private int vecesSaltadas = 0;
+    private int rondas = 0;
     public JuegoPanel(JFrame frame) {
         pajaro = new Pajaro(90, 90, 2);
         addKeyListener(this);
@@ -109,11 +110,12 @@ public class JuegoPanel extends JPanel implements KeyListener {
 
         // Cuanto mas grande sea el numero, mas abajo estara la tuberia
         if (tuberiaArriba.getX() == 500) {
-            posicionAleatoriaArriba = tuberiaArriba.posicionAleatoriaY();
+            posicionAleatoriaArriba = Utilidades.generarNumeroAleatorio(0,40) - 100;
+            System.out.println("Posicion aleatoria arriba: " + posicionAleatoriaArriba);
             tuberiaArriba.setY(posicionAleatoriaArriba);
         } else if (tuberiaArriba.getX() < -90) {
             tuberiaArriba.setX(500);
-            posicionAleatoriaArriba = tuberiaArriba.posicionAleatoriaY();
+            posicionAleatoriaArriba = Utilidades.generarNumeroAleatorio(0,40) - 100;
             tuberiaArriba.setY(posicionAleatoriaArriba);
         }
 
@@ -124,16 +126,17 @@ public class JuegoPanel extends JPanel implements KeyListener {
 
         // Cuanto menos sea el numero, mas abajo estara la tuberia
         if (tuberiaAbajo.getX() == 500) {
-            posicionAleatoriaAbajo = tuberiaAbajo.poscionAleatoriaY();
+            posicionAleatoriaAbajo = Utilidades.generarNumeroAleatorio(1,300) + 100;
+            System.out.println("Posicion aleatoria abajo: " + posicionAleatoriaAbajo);
             tuberiaAbajo.setY(posicionAleatoriaAbajo);
         } else if (tuberiaAbajo.getX() < -90) {
             tuberiaAbajo.setX(500);
-            posicionAleatoriaAbajo = tuberiaAbajo.poscionAleatoriaY();
+            posicionAleatoriaAbajo = Utilidades.generarNumeroAleatorio(1,400) + 100;
+            System.out.println("Posicion aleatoria abajo: " + posicionAleatoriaAbajo);
             tuberiaAbajo.setY(posicionAleatoriaAbajo);
         }
 
         tuberiaAbajo.movimientoX();
-
 
         // PAJARO && ROTACION
 
@@ -156,5 +159,6 @@ public class JuegoPanel extends JPanel implements KeyListener {
         if (System.currentTimeMillis() - pajaro.ultimoSalto >= 1000) {
             pajaro.angulo -= 30;
         }
+        rondas++;
     }
 }
