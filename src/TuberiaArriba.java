@@ -14,18 +14,6 @@ public class TuberiaArriba {
         x -= VELOCIDAD;
     }
 
-    public int posicionAleatoriaY() {
-        Random numeroAleatorio = new Random();
-        int posicion = numeroAleatorio.nextInt(40) - 100 ; // Numero aleatorio de 100 a 140 para la posicion Y de la tuberia
-        System.out.println("Tuberia Arriba Y: " + posicion);
-        return posicion;
-    }
-
-    public int generarNumeroAleatorio(int min, int max) {
-        Random numeroAleatorio = new Random();
-        int numeroAleatorio_ = numeroAleatorio.nextInt(max) + min;
-        return numeroAleatorio_;
-    }
     public int setX(int x) {
         return this.x = x;
     }
