@@ -7,13 +7,14 @@ public class Pajaro {
     public int veces = 8;
     public int vecesSalto = 0;
     public int angulo;
+    public long ultimoSalto;
 
     public Pajaro(int x, int y, int velocidad) {
         this.x = x;
         this.y = y;
         this.VELOCIDAD = velocidad;
+        this.ultimoSalto = System.currentTimeMillis();
     }
-
     public void saltar() {
         y -= 8;
         if (y < 0) {
@@ -21,6 +22,7 @@ public class Pajaro {
         } else {
             vecesSalto++;
         }
+        this.ultimoSalto = System.currentTimeMillis();
     }
     public void bajar() {
         y += VELOCIDAD;

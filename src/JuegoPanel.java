@@ -23,6 +23,7 @@ public class JuegoPanel extends JPanel implements KeyListener {
     private BufferedImage tuberiaAbajoImg;
     private BufferedImage pajaroImg;
     private int puntos = 0;
+    private int vecesSaltadas = 0;
     public JuegoPanel(JFrame frame) {
         pajaro = new Pajaro(90, 90, 2);
         addKeyListener(this);
@@ -38,7 +39,6 @@ public class JuegoPanel extends JPanel implements KeyListener {
             tuberiaAbajoImg = ImageIO.read(getClass().getResource("/img/tuberia_abajo.png"));
             pajaroImg = ImageIO.read(getClass().getResource("/img/pajaro.png"));
 
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -51,13 +51,7 @@ public class JuegoPanel extends JPanel implements KeyListener {
                 repaint();
 
                 actualizar();
-                if (pajaro.getAngulo() == 0 && saltoEnProceso) {
-                    pajaro.angulo += -30;
-                } else if (pajaro.getAngulo() == -30 && !saltoEnProceso) {
-                    pajaro.angulo += 30;
-                }
-                System.out.println(pajaro.getAngulo());
-
+                
                 try {
                     Thread.sleep(10); // 10 milisegundos de pausa
                 } catch (InterruptedException e) {
@@ -104,19 +98,23 @@ public class JuegoPanel extends JPanel implements KeyListener {
         int key = e.getKeyCode();
         if (key == KeyEvent.VK_SPACE) {
             saltoEnProceso = false;
-
         }
     }
 
     public void actualizar() {
+        int posicionAleatoriaAbajo = 0;
+        int posicionAleatoriaArriba = 0;
 
         // TUBERIA DE ARRIBA
 
+        // Cuanto mas grande sea el numero, mas abajo estara la tuberia
         if (tuberiaArriba.getX() == 500) {
-            tuberiaArriba.setY(tuberiaArriba.posicionAleatoriaY());
+            posicionAleatoriaArriba = tuberiaArriba.posicionAleatoriaY();
+            tuberiaArriba.setY(posicionAleatoriaArriba);
         } else if (tuberiaArriba.getX() < -90) {
             tuberiaArriba.setX(500);
-            tuberiaArriba.setY(tuberiaArriba.posicionAleatoriaY());
+            posicionAleatoriaArriba = tuberiaArriba.posicionAleatoriaY();
+            tuberiaArriba.setY(posicionAleatoriaArriba);
         }
 
         tuberiaArriba.movimientoX();
@@ -124,11 +122,14 @@ public class JuegoPanel extends JPanel implements KeyListener {
 
         // TUBERIA DE ABAJO
 
+        // Cuanto menos sea el numero, mas abajo estara la tuberia
         if (tuberiaAbajo.getX() == 500) {
-            tuberiaAbajo.setY(tuberiaAbajo.poscionAleatoriaY());
+            posicionAleatoriaAbajo = tuberiaAbajo.poscionAleatoriaY();
+            tuberiaAbajo.setY(posicionAleatoriaAbajo);
         } else if (tuberiaAbajo.getX() < -90) {
             tuberiaAbajo.setX(500);
-            tuberiaAbajo.setY(tuberiaAbajo.poscionAleatoriaY());
+            posicionAleatoriaAbajo = tuberiaAbajo.poscionAleatoriaY();
+            tuberiaAbajo.setY(posicionAleatoriaAbajo);
         }
 
         tuberiaAbajo.movimientoX();
@@ -136,16 +137,24 @@ public class JuegoPanel extends JPanel implements KeyListener {
 
         // PAJARO && ROTACION
 
-        // No terminado
         if (saltoEnProceso) {
             if (pajaro.vecesSalto < pajaro.veces) {
                 pajaro.saltar();
+                vecesSaltadas++;
+                if (vecesSaltadas > 3) {
+                    pajaro.angulo = -30;
+                }
             } else {
                 pajaro.bajar();
             }
         } else {
             pajaro.bajar();
             pajaro.vecesSalto = 0;
+            vecesSaltadas = 0;
+        }
+
+        if (System.currentTimeMillis() - pajaro.ultimoSalto >= 1000) {
+            pajaro.angulo -= 30;
         }
     }
 }
