@@ -24,7 +24,8 @@ public class JuegoPanel extends JPanel implements KeyListener {
     private BufferedImage pajaroImg;
     private int puntos = 0;
     private int vecesSaltadas = 0;
-    private int rondas = 0;
+    private boolean colisiones = true;
+    private int numeroAleatorio = 0;
     public JuegoPanel(JFrame frame) {
         pajaro = new Pajaro(90, 90, 2);
         addKeyListener(this);
@@ -47,7 +48,9 @@ public class JuegoPanel extends JPanel implements KeyListener {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                puntos = pajaro.puntos(tuberiaArriba.getX(),tuberiaArriba.getY(),tuberiaAbajo.getX(),tuberiaAbajo.getY(),puntos);
+                if (!colisiones) {
+                    puntos = pajaro.puntos(tuberiaArriba.getX(),tuberiaArriba.getY(),tuberiaAbajo.getX(),tuberiaAbajo.getY(),puntos);
+                }
                 frame.setTitle("Flappy Bird | Puntos: " + puntos);
                 repaint();
 
@@ -92,6 +95,13 @@ public class JuegoPanel extends JPanel implements KeyListener {
         if (key == KeyEvent.VK_SPACE) {
             saltoEnProceso = true;
         }
+        if (key == KeyEvent.VK_ESCAPE) {
+            if (colisiones) {
+                colisiones = false;
+            } else {
+                colisiones = true;
+            }
+        }
     }
 
     @Override
@@ -108,35 +118,49 @@ public class JuegoPanel extends JPanel implements KeyListener {
 
         // TUBERIA DE ARRIBA
 
-        // Cuanto mas grande sea el numero, mas abajo estara la tuberia
+        // Cuanto menos sea el numero, mas arriba estara la tuberia
         if (tuberiaArriba.getX() == 500) {
-            posicionAleatoriaArriba = Utilidades.generarNumeroAleatorio(0,40) - 100;
-            System.out.println("Posicion aleatoria arriba: " + posicionAleatoriaArriba);
+            numeroAleatorio = Utilidades.generarNumeroAleatorio(1,7);
+            posicionAleatoriaArriba = GeneracionTuberias.generacionTuberias(tuberiaArriba.getY(),tuberiaAbajo.getY(),1,numeroAleatorio);
             tuberiaArriba.setY(posicionAleatoriaArriba);
+            System.out.println(numeroAleatorio);
         } else if (tuberiaArriba.getX() < -90) {
             tuberiaArriba.setX(500);
-            posicionAleatoriaArriba = Utilidades.generarNumeroAleatorio(0,40) - 100;
+            numeroAleatorio = Utilidades.generarNumeroAleatorio(1,7);
+            posicionAleatoriaArriba = GeneracionTuberias.generacionTuberias(tuberiaArriba.getY(),tuberiaAbajo.getY(),1,numeroAleatorio);
             tuberiaArriba.setY(posicionAleatoriaArriba);
+            System.out.println(numeroAleatorio);
         }
 
         tuberiaArriba.movimientoX();
 
-
         // TUBERIA DE ABAJO
 
-        // Cuanto menos sea el numero, mas abajo estara la tuberia
+        // Cuanto mas sea el numero, mas abajo estara la tuberia
         if (tuberiaAbajo.getX() == 500) {
-            posicionAleatoriaAbajo = Utilidades.generarNumeroAleatorio(1,300) + 100;
-            System.out.println("Posicion aleatoria abajo: " + posicionAleatoriaAbajo);
+            posicionAleatoriaAbajo = GeneracionTuberias.generacionTuberias(tuberiaArriba.getY(),tuberiaAbajo.getY(),2,numeroAleatorio);
             tuberiaAbajo.setY(posicionAleatoriaAbajo);
         } else if (tuberiaAbajo.getX() < -90) {
             tuberiaAbajo.setX(500);
-            posicionAleatoriaAbajo = Utilidades.generarNumeroAleatorio(1,400) + 100;
-            System.out.println("Posicion aleatoria abajo: " + posicionAleatoriaAbajo);
+            posicionAleatoriaAbajo = GeneracionTuberias.generacionTuberias(tuberiaArriba.getY(),tuberiaAbajo.getY(),2,numeroAleatorio);
             tuberiaAbajo.setY(posicionAleatoriaAbajo);
         }
 
         tuberiaAbajo.movimientoX();
+
+        /*if (posicionAleatoriaArriba >= -100 && posicionAleatoriaAbajo > 200) {
+            posicionAleatoriaArriba = Utilidades.generarNumeroAleatorio(0,5) - 150;
+            tuberiaArriba.setY(posicionAleatoriaArriba);
+            System.out.println("Posicion arriba: " + posicionAleatoriaArriba);
+            posicionAleatoriaAbajo = Utilidades.generarNumeroAleatorio(200,350);
+
+            if (posicionAleatoriaAbajo < 270) {
+                posicionAleatoriaAbajo = Utilidades.generarNumeroAleatorio(300,350);
+            }
+
+            tuberiaAbajo.setY(posicionAleatoriaAbajo);
+            System.out.println("Posicion abajo: " + posicionAleatoriaAbajo);
+        }*/
 
         // PAJARO && ROTACION
 
@@ -159,6 +183,5 @@ public class JuegoPanel extends JPanel implements KeyListener {
         if (System.currentTimeMillis() - pajaro.ultimoSalto >= 1000) {
             pajaro.angulo -= 30;
         }
-        rondas++;
     }
 }
