@@ -1,3 +1,5 @@
+package dev.darkenight07.Juego;
+
 import javax.swing.*;
 import java.awt.*;
 

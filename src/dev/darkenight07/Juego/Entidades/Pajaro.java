@@ -1,12 +1,14 @@
+package dev.darkenight07.Juego.Entidades;
+
 public class Pajaro {
     // Posicion del pajaro
     private int x;
     public int y;
     // Movimiento del pajaro
     private final int VELOCIDAD;
-    public int veces = 8;
-    public int vecesSalto = 0;
-    public int angulo;
+    private int veces = 8;
+    private int vecesSalto = 0;
+    private int angulo;
     public long ultimoSalto;
 
     public Pajaro(int x, int y, int velocidad) {
@@ -63,9 +65,23 @@ public class Pajaro {
         } else if (x == inicioTuberiaXArriba || x == inicioTuberiaXAbajo) {
             puntos++;
         }
-
         return puntos;
+    }
 
+    public int getVeces() {
+        return veces;
+    }
+
+    public int getVecesSalto() {
+        return vecesSalto;
+    }
+
+    public void setAngulo(int angulo) {
+        this.angulo = angulo;
+    }
+
+    public void setVecesSalto(int vecesSalto) {
+        this.vecesSalto = vecesSalto;
     }
 
     public int getAngulo() {
